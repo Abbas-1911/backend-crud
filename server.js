@@ -1,11 +1,21 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+// Only require dotenv in local development (you can remove this in production if using Railway environment variables directly)
+require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI; // Fetch from Railway environment variables
+
+// Debugging: Log MONGO_URI to verify if it's correct
+console.log("Mongo URI:", MONGO_URI);  // This will log the MongoDB URI to the console
+
+if (!MONGO_URI) {
+    console.error("❌ Mongo URI is missing! Check your environment variables.");
+    process.exit(1); // Exit if MONGO_URI is not defined
+}
 
 // Middleware
 app.use(express.json());
